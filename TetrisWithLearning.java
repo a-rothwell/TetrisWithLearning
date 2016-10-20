@@ -73,46 +73,68 @@ public class TetrisWithLearning extends JFrame{
         play();
     }
     private void moveDown(){
-        int moveCount = 0;
-        for(int i = board.length - 1 ; i > - 1;i--){
-            for(int j = board[i].length - 1; j > - 1; j--){
-                if(j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white)){
-                    if(!board[i][j].getColor().equals(Color.white)) {
-                        moveCount++;
+        boolean canFall = true;
+        if(!board[0][4 + drop].getColor().equals(Color.white)){
+            System.out.print("FALSE");
+            canFall = false;
+        }
+        if(!board[1][4 + drop].getColor().equals(Color.white)){
+            System.out.print("FALSE");
+            canFall = false;
+        }
+        if(!board[2][4 + drop].getColor().equals(Color.white)){
+            System.out.print("FALSE");
+            canFall = false;
+        }
+        if(!board[3][4 + drop].getColor().equals(Color.white)){
+            System.out.print("FALSE");
+            canFall = false;
+        }
+
+        if(canFall) {
+            drop++;
+            for (int i = board.length - 1; i > -1; i--) {
+                for (int j = board[i].length - 1; j > -1; j--) {
+                    if (j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white) && canFall) {
+                        board[i][j + 1].setColor(board[i][j].getColor());
+                        board[i][j].setColor(Color.WHITE);
                     }
                 }
             }
         }
-        System.out.println(moveCount);
-        for(int i = board.length - 1 ; i > - 1;i--){
-            for(int j = board[i].length - 1; j > - 1; j--){
-                if(j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white) && moveCount < 9){
-                    board[i][j + 1].setColor(board[i][j].getColor());
-                    board[i][j].setColor(Color.WHITE);
-                }
-            }
-        }
-        drop++;
+
         repaint();
         play();
     }
     private void rotate(){
-        board[0][drop].setColor(board[0][3].getColor());
-        board[0][1 + drop].setColor(board[1][3].getColor());
-        board[0][2 + drop].setColor(board[2][3].getColor());
-        board[0][3 + drop].setColor(board[3][3].getColor());
-        board[1][0 + drop].setColor(board[0][2].getColor());
-        board[1][1 + drop].setColor(board[1][2].getColor());
-        board[1][2 + drop].setColor(board[2][2].getColor());
-        board[1][3 + drop].setColor(board[1][0].getColor());
-        board[2][drop].setColor(board[0][1].getColor());
-        board[2][1 + drop].setColor(board[1][1].getColor());
-        board[2][2 + drop].setColor(board[2][1].getColor());
-        board[2][3 + drop].setColor(board[2][2].getColor());
-        board[3][drop].setColor(board[0][0].getColor());
-        board[3][1 + drop].setColor(board[0][1].getColor());
-        board[3][2 + drop].setColor(board[0][2].getColor());
-        board[3][3 + drop].setColor(board[0][3].getColor());
+        Color[][] pieceShape = {{Color.white , Color.white, Color.white, Color.white},
+                {Color.white , Color.white, Color.white, Color.white},
+                {Color.white , Color.white, Color.white, Color.white},
+                {Color.white , Color.white, Color.white, Color.white}};
+
+
+        pieceShape[0][0] = board[3][drop].getColor();
+        pieceShape[0][1] = board[2][drop].getColor();
+        pieceShape[0][2] = board[1][drop].getColor();
+        pieceShape[0][3] = board[0][drop].getColor();
+        pieceShape[1][0] = board[3][1 + drop].getColor();
+        pieceShape[1][1] = board[2][1 + drop].getColor();
+        pieceShape[1][2] = board[1][1 + drop].getColor();
+        pieceShape[1][3] = board[0][1 + drop].getColor();
+        pieceShape[2][0] = board[3][2 + drop].getColor();
+        pieceShape[2][1] = board[2][2 + drop].getColor();
+        pieceShape[2][2] = board[1][2 + drop].getColor();
+        pieceShape[2][3] = board[0][2 + drop].getColor();
+        pieceShape[3][0] = board[3][3 + drop].getColor();
+        pieceShape[3][1] = board[2][3 + drop].getColor();
+        pieceShape[3][2] = board[1][3 + drop].getColor();
+        pieceShape[3][3] = board[0][3 + drop].getColor();
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                board[i][j + drop].setColor(pieceShape[i][j]);
+            }
+        }
         repaint();
         play();
     }
@@ -122,7 +144,7 @@ public class TetrisWithLearning extends JFrame{
             generatePiece();
         }
         try{
-            timer.schedule(run, 1000, downRate);
+            timer.schedule(run, 10000, downRate);
         }
         catch (IllegalStateException e){}
     }
@@ -130,10 +152,15 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         System.out.println("Generate Piece");
         SquarePolyomino straightPolyomino = new SquarePolyomino();
+//        Color[][] straightPolyomino = {{Color.red , Color.yellow, Color.cyan, Color.gray},
+//                {Color.magenta , Color.pink, Color.BLUE, Color.lightGray},
+//                {Color.yellow , Color.pink, Color.pink, Color.lightGray},
+//                {Color.cyan , Color.magenta, Color.blue, Color.red}};
         movingPeice = straightPolyomino;
         for(int i = 0 ; i < 4 ; i++ ){
             for(int j = 0; j < 4; j++){
-                board[i][j].setColor(straightPolyomino.getPieceShape()[i][j]);
+                //board[i][j].setColor(straightPolyomino.getPieceShape()[i][j]);
+                board[i][j].setColor(movingPeice.getPieceShape()[i][j]);
             }
         }
         activePeice = true;
