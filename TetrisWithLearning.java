@@ -1,4 +1,3 @@
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -8,9 +7,11 @@ import java.util.TimerTask;
 
 public class TetrisWithLearning extends JFrame{
     private Spaces[][] board = new Spaces[10][24];
-    private int downRate = 1000;
+    private Piece movingPeice;
+    private boolean activePeice = false;
+    private int drop;
     java.util.Timer timer = new java.util.Timer();
-    TimerTask task = new TimerTask() {
+    TimerTask run = new TimerTask() {
         public void run() {
             moveDown();
         }
@@ -34,19 +35,7 @@ public class TetrisWithLearning extends JFrame{
                 container.add(board[i][j].jButton);
             }
         }
-        board[5][5].getjButton().setBackground(Color.black);
-        board[4][5].getjButton().setBackground(Color.lightGray);
-        board[3][5].getjButton().setBackground(Color.GRAY);
-        board[2][5].getjButton().setBackground(Color.orange);
-        board[1][5].getjButton().setBackground(Color.yellow);
-
-        board[5][16].getjButton().setBackground(Color.blue);
-        board[5][15].getjButton().setBackground(Color.green);
-        board[2][21].getjButton().setBackground(Color.red);
-        board[1][22].getjButton().setBackground(Color.yellow);
-        board[4][6].getjButton().setBackground(Color.magenta);
-
-
+        board[3][23].setColor(Color.BLACK);
         jFrame.setVisible(true);
         jFrame.addKeyListener(new KeyListener() {
             @Override
@@ -55,7 +44,6 @@ public class TetrisWithLearning extends JFrame{
             }
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("KEY PRESS");
                 int key = e.getKeyCode();
                 if(key == KeyEvent.VK_LEFT){
                     moveLeft();
@@ -64,10 +52,10 @@ public class TetrisWithLearning extends JFrame{
                     moveRight();
                 }
                 if(key == KeyEvent.VK_DOWN){
-                    System.out.print("Move Down");
                     moveDown();
                 }
                 if(key == KeyEvent.VK_R){
+                    System.out.println("Rotate");
                     rotate();
                 }
             }
@@ -75,37 +63,80 @@ public class TetrisWithLearning extends JFrame{
             public void keyReleased(KeyEvent e) {}
         });
     }
-
     private void moveLeft() {
 
+        repaint();
         play();
     }
     private void moveRight(){
-
+        repaint();
         play();
     }
     private void moveDown(){
-        for(int i = board.length - 1 ; i > 0;i--){
-            for(int j = board[i].length - 1; j > 0; j--){
-                if(i + 1 != board.length && j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white)){
+        int moveCount = 0;
+        for(int i = board.length - 1 ; i > - 1;i--){
+            for(int j = board[i].length - 1; j > - 1; j--){
+                if(j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white)){
+                    if(!board[i][j].getColor().equals(Color.white)) {
+                        moveCount++;
+                    }
+                }
+            }
+        }
+        System.out.println(moveCount);
+        for(int i = board.length - 1 ; i > - 1;i--){
+            for(int j = board[i].length - 1; j > - 1; j--){
+                if(j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white) && moveCount < 9){
                     board[i][j + 1].setColor(board[i][j].getColor());
                     board[i][j].setColor(Color.WHITE);
                 }
             }
         }
+        drop++;
         repaint();
         play();
     }
     private void rotate(){
+        board[0][drop].setColor(board[0][3].getColor());
+        board[0][1 + drop].setColor(board[1][3].getColor());
+        board[0][2 + drop].setColor(board[2][3].getColor());
+        board[0][3 + drop].setColor(board[3][3].getColor());
+        board[1][0 + drop].setColor(board[0][2].getColor());
+        board[1][1 + drop].setColor(board[1][2].getColor());
+        board[1][2 + drop].setColor(board[2][2].getColor());
+        board[1][3 + drop].setColor(board[1][0].getColor());
+        board[2][drop].setColor(board[0][1].getColor());
+        board[2][1 + drop].setColor(board[1][1].getColor());
+        board[2][2 + drop].setColor(board[2][1].getColor());
+        board[2][3 + drop].setColor(board[2][2].getColor());
+        board[3][drop].setColor(board[0][0].getColor());
+        board[3][1 + drop].setColor(board[0][1].getColor());
+        board[3][2 + drop].setColor(board[0][2].getColor());
+        board[3][3 + drop].setColor(board[0][3].getColor());
+        repaint();
         play();
     }
     public void play(){
+        int downRate = 1000;
+        if(!activePeice){
+            generatePiece();
+        }
         try{
-            timer.schedule(task, 5, downRate);
+            timer.schedule(run, 1000, downRate);
         }
         catch (IllegalStateException e){}
     }
-    public boolean gameover(){
-        return false;
+
+    private void generatePiece() {
+        System.out.println("Generate Piece");
+        SquarePolyomino straightPolyomino = new SquarePolyomino();
+        movingPeice = straightPolyomino;
+        for(int i = 0 ; i < 4 ; i++ ){
+            for(int j = 0; j < 4; j++){
+                board[i][j].setColor(straightPolyomino.getPieceShape()[i][j]);
+            }
+        }
+        activePeice = true;
+        repaint();
     }
 }
