@@ -5,10 +5,9 @@ import java.awt.*;
  */
 public class SquarePolyomino extends Piece{
     private Color[][] pieceShape = {{Color.red , Color.red},
-            {Color.red, Color.red}};
+            {Color.red, Color.red }};
     public SquarePolyomino(){
         super();
-        System.out.println("Straight Piece");
         this.setPieceShape(pieceShape);
     }
     @Override
@@ -16,7 +15,13 @@ public class SquarePolyomino extends Piece{
         return pieceShape;
     }
     @Override
-    public boolean canFall(){
-        return true;
+    public boolean canFall(Spaces[][] board){
+        boolean canFall = true;
+        for(int i = 0; i < pieceShape[pieceShape.length - 1].length; i++){
+            if(getY() + 1 < board[board.length-1].length && !board[getX()][getY() + pieceShape.length].getColor().equals(Color.white)){
+                canFall = false;
+            }
+        }
+        return canFall;
     }
 }

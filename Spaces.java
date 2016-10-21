@@ -8,10 +8,10 @@ public class Spaces{
     int xPosition;
     int yPosition;
     JButton jButton;
-    int top = 1;
-    int bottom = 1;
-    int left = 1;
-    int right = 1;
+    int top = 0;
+    int bottom = 0;
+    int left = 0;
+    int right = 0;
     public Spaces(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;

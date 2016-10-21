@@ -1,8 +1,9 @@
 import java.awt.*;
 public class Piece {
     private java.awt.Color[][] pieceShape;
+    private Point point = new Point();
     public Piece(){
-        System.out.println("Piece");
+
     }
     public Color[][] rotate(){
 
@@ -22,7 +23,28 @@ public class Piece {
         this.pieceShape = peiceShape;
     }
 
-    public boolean canFall() {
+    public boolean canFall(Spaces[][] board) {
         return false;
+    }
+    public void setPoint(int xPosition, int yPosition){
+        this.point.setLocation(xPosition, yPosition);
+    }
+    public Point getPoint(){
+        return this.point.getLocation();
+    }
+    public int getX(){
+        return this.point.x;
+    }
+    public int getY(){
+        return this.point.y;
+    }
+    public void incrementY() {
+        this.point.y++;
+    }
+    public void incrementX(){
+        this.point.x++;
+    }
+    public void decrementX(){
+        this.point.x--;
     }
 }

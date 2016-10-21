@@ -69,21 +69,20 @@ public class TetrisWithLearning extends JFrame{
         });
     }
     private void moveLeft() {
-
+        activePiece.decrementX();
         repaint();
         play();
     }
     private void moveRight(){
+        activePiece.incrementX();
         repaint();
         play();
     }
     private void moveDown(){
         canFall = activePiece.canFall(board);
         if(canFall) {
-            System.out.println("New Fall");
-            for (int i = activePiece.getX(); i < activePiece.getPieceShape().length; i++ ) {
-                for (int j = activePiece.getY(); j < activePiece.getPieceShape()[i].length; j++) {
-                    System.out.println("i " + i + "\n" + "j " + j + "\n");
+            for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
+                for (int j = 0; j < activePiece.getPieceShape()[i].length; j++) {
                     board[activePiece.getX() + i][activePiece.getY() + 1 + j].setColor(Color.red);
                 }
             }
