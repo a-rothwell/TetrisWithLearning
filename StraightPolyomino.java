@@ -24,6 +24,14 @@ public class StraightPolyomino extends Piece {
         }
     }
     @Override
+    public boolean canLeft(Spaces[][] board){
+        return false;
+    }
+    @Override
+    public boolean canRight(Spaces[][] board){
+        return false;
+    }
+    @Override
     public boolean canFall(Spaces[][] board) {
         boolean canFall = true;
         for(int i = 0; i < this.getPieceShape().length; i++){

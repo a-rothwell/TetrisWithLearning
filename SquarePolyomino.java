@@ -12,8 +12,12 @@ public class SquarePolyomino extends Piece{
         this.setColor(Color.red);
     }
     @Override
-    public Color[][] rotate() {
-        return pieceShape;
+    public boolean canLeft(Spaces[][] board){
+        return false;
+    }
+    @Override
+    public boolean canRight(Spaces[][] board){
+        return false;
     }
     @Override
     public boolean canFall(Spaces[][] board){

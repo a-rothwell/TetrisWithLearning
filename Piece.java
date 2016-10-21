@@ -7,8 +7,7 @@ public class Piece {
 
     }
     public Color[][] rotate(){
-        Color[][] array = {{Color.white}};
-        return array;
+        return pieceShape;
     }
 
     public Color[][] getPieceShape() {
