@@ -7,7 +7,6 @@ public class Piece {
 
     }
     public Color[][] rotate(){
-
         for(int i = 0; i < 4 ;i++){
             for(int j = 0; j < 4 ; j++){
                 pieceShape[i][j] = this.pieceShape[i][j];

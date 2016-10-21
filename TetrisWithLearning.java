@@ -72,22 +72,26 @@ public class TetrisWithLearning extends JFrame{
     }
     private void moveLeft() {
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            board[activePiece.getX() + 1][activePiece.getY() + i].setColor(Color.white);
+            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
+                board[activePiece.getX() + i][activePiece.getY() + j].setColor(Color.white);
         }
         activePiece.decrementX();
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            board[activePiece.getX()][activePiece.getY() + i].setColor(Color.red);
+            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
+                board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
         }
         repaint();
         play();
     }
     private void moveRight(){
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            board[activePiece.getX()][activePiece.getY() + i].setColor(Color.white);
+            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
+            board[activePiece.getX()][activePiece.getY() + j].setColor(Color.white);
         }
         activePiece.incrementX();
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            board[activePiece.getX() + 1][activePiece.getY() + i].setColor(activePiece.getColor());
+            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
+                board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
         }
         repaint();
         play();
@@ -100,7 +104,7 @@ public class TetrisWithLearning extends JFrame{
             }
             activePiece.incrementY();
             for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-                board[activePiece.getX() + i][activePiece.getY() + 1].setColor(activePiece.getColor());
+                board[activePiece.getX() + i][activePiece.getY() + activePiece.getPieceShape()[i].length - 1].setColor(activePiece.getColor());
             }
         }
         if(!canFall){
@@ -152,7 +156,7 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino()};
         int randomInt = random.nextInt(2);
-        activePiece = randomPiece[randomInt];
+        activePiece = randomPiece[1];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){

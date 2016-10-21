@@ -10,7 +10,6 @@ public class SquarePolyomino extends Piece{
         super();
         this.setPieceShape(pieceShape);
         this.setColor(Color.red);
-        System.out.println("Square Piece");
     }
     @Override
     public Color[][] rotate() {
