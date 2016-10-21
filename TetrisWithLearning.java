@@ -35,14 +35,6 @@ public class TetrisWithLearning extends JFrame{
                 container.add(board[i][j].jButton);
             }
         }
-        board[1][23].setColor(Color.BLACK);
-        board[1][22].setColor(Color.BLACK);
-        board[1][21].setColor(Color.BLACK);
-        board[0][23].setColor(Color.BLACK);
-        board[0][22].setColor(Color.BLACK);
-        board[0][21].setColor(Color.BLACK);
-        board[0][20].setColor(Color.BLACK);
-
         jFrame.setVisible(true);
         jFrame.addKeyListener(new KeyListener() {
             @Override
@@ -69,37 +61,40 @@ public class TetrisWithLearning extends JFrame{
             public void keyReleased(KeyEvent e) {}
         });
     }
-    private void moveLeft() {
-        boolean canLeft;
-        for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
-                board[activePiece.getX() + i][activePiece.getY() + j].setColor(Color.white);
-        }
-        activePiece.decrementX();
-        for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
-                board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
-        }
-        repaint();
-        play();
-    }
-    private void moveRight(){
-        boolean canRight;
-        for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
-            board[activePiece.getX()][activePiece.getY() + j].setColor(Color.white);
-        }
-        activePiece.incrementX();
-        for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
-            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
-                board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
+    public void moveLeft() {
+        boolean canLeft = activePiece.canLeft(board);
+        if(canLeft) {
+            for (int i = 0; i < activePiece.getPieceShape().length; i++) {
+                for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
+                    board[activePiece.getX() + i][activePiece.getY() + j].setColor(Color.white);
+            }
+            activePiece.decrementX();
+            for (int i = 0; i < activePiece.getPieceShape().length; i++) {
+                for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
+                    board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
+            }
         }
         repaint();
         play();
     }
-    private void moveDown(){
-        boolean canFall;
-        canFall = activePiece.canFall(board);
+   public void moveRight(){
+        boolean canRight = activePiece.canRight(board);
+       if(canRight) {
+           for (int i = 0; i < activePiece.getPieceShape().length; i++) {
+               for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
+                   board[activePiece.getX()][activePiece.getY() + j].setColor(Color.white);
+           }
+           activePiece.incrementX();
+           for (int i = 0; i < activePiece.getPieceShape().length; i++) {
+               for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
+                   board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
+           }
+       }
+        repaint();
+        play();
+    }
+    public  void moveDown(){
+        boolean canFall = activePiece.canFall(board);
         if(canFall) {
             for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
                     board[activePiece.getX() + i][activePiece.getY()].setColor(Color.white);
@@ -150,14 +145,16 @@ public class TetrisWithLearning extends JFrame{
             generatePiece();
         }
         try{
-            timer.schedule(run, 10000, downRate);
+            timer.schedule(run, 0, downRate);
         }
-        catch (IllegalStateException e){}
+        catch (IllegalStateException e){
+            //System.out.println(e);
+        }
     }
 
     private void generatePiece() {
-        Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino()};
-        int randomInt = random.nextInt(2);
+        Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino(true), new StraightPolyomino(false)};
+        int randomInt = random.nextInt(3);
         activePiece = randomPiece[randomInt];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){

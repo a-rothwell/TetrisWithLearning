@@ -4,10 +4,11 @@ public class StraightPolyomino extends Piece {
     private Color[][] pieceShapeHorizantal = {{Color.blue }, {Color.blue}, {Color.blue}, {Color.blue}};
     private Color[][] pieceShapeVertical = {{Color.blue , Color.blue, Color.blue, Color.blue}};
     private boolean vertical = true;
-    public StraightPolyomino(){
+    public StraightPolyomino(boolean vertical){
         super();
         super.setPieceShape(pieceShapeVertical);
         super.setColor(Color.blue);
+        this.vertical = vertical;
     }
     @Override
     public Color[][] rotate(){
@@ -26,11 +27,14 @@ public class StraightPolyomino extends Piece {
     public boolean canFall(Spaces[][] board) {
         boolean canFall = true;
         for(int i = 0; i < this.getPieceShape().length; i++){
-            for(int j = 0; j < this.getPieceShape()[i].length; j++)
-                if(getY() == 23 || !board[getX() + i][getY() + 1].getColor().equals(Color.white)){
-                    canFall = false;
-                }
+            if(getY() + getPieceShape()[i].length  >= 24  || !board[getX() + i][getY() + this.getPieceShape()[i].length].getColor().equals(Color.white)) {
+                System.out.println("Can't fall");
+                canFall = false;
+            }
         }
         return canFall;
+    }
+    public void setVerticalFalse(){
+        this.vertical = false;
     }
 }
