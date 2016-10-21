@@ -145,7 +145,7 @@ public class TetrisWithLearning extends JFrame{
             generatePiece();
         }
         try{
-            timer.schedule(run, 0, downRate);
+            timer.schedule(run, 1000, downRate);
         }
         catch (IllegalStateException e){
             //System.out.println(e);

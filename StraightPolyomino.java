@@ -23,25 +23,6 @@ public class StraightPolyomino extends Piece {
             return pieceShapeHorizantal;
         }
     }
-    @Override
-    public boolean canLeft(Spaces[][] board){
-        return false;
-    }
-    @Override
-    public boolean canRight(Spaces[][] board){
-        return false;
-    }
-    @Override
-    public boolean canFall(Spaces[][] board) {
-        boolean canFall = true;
-        for(int i = 0; i < this.getPieceShape().length; i++){
-            if(getY() + getPieceShape()[i].length  >= 24  || !board[getX() + i][getY() + this.getPieceShape()[i].length].getColor().equals(Color.white)) {
-                System.out.println("Can't fall");
-                canFall = false;
-            }
-        }
-        return canFall;
-    }
     public void setVerticalFalse(){
         this.vertical = false;
     }
