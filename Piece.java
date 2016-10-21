@@ -21,4 +21,8 @@ public class Piece {
     public void setPieceShape(Color[][] peiceShape) {
         this.pieceShape = peiceShape;
     }
+
+    public boolean canFall() {
+        return false;
+    }
 }

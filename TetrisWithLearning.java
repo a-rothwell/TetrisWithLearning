@@ -7,8 +7,7 @@ import java.util.TimerTask;
 
 public class TetrisWithLearning extends JFrame{
     private Spaces[][] board = new Spaces[10][24];
-    private Piece movingPeice;
-    private boolean activePeice = false;
+    private Piece activePiece = null;
     private int drop;
     java.util.Timer timer = new java.util.Timer();
     TimerTask run = new TimerTask() {
@@ -36,6 +35,8 @@ public class TetrisWithLearning extends JFrame{
             }
         }
         board[3][23].setColor(Color.BLACK);
+        board[8][5].setColor(Color.BLACK);
+
         jFrame.setVisible(true);
         jFrame.addKeyListener(new KeyListener() {
             @Override
@@ -55,7 +56,6 @@ public class TetrisWithLearning extends JFrame{
                     moveDown();
                 }
                 if(key == KeyEvent.VK_R){
-                    System.out.println("Rotate");
                     rotate();
                 }
             }
@@ -74,22 +74,7 @@ public class TetrisWithLearning extends JFrame{
     }
     private void moveDown(){
         boolean canFall = true;
-        if(!board[0][4 + drop].getColor().equals(Color.white)){
-            System.out.print("FALSE");
-            canFall = false;
-        }
-        if(!board[1][4 + drop].getColor().equals(Color.white)){
-            System.out.print("FALSE");
-            canFall = false;
-        }
-        if(!board[2][4 + drop].getColor().equals(Color.white)){
-            System.out.print("FALSE");
-            canFall = false;
-        }
-        if(!board[3][4 + drop].getColor().equals(Color.white)){
-            System.out.print("FALSE");
-            canFall = false;
-        }
+        canFall = activePiece.canFall();
 
         if(canFall) {
             drop++;
@@ -99,40 +84,44 @@ public class TetrisWithLearning extends JFrame{
                         board[i][j + 1].setColor(board[i][j].getColor());
                         board[i][j].setColor(Color.WHITE);
                     }
+                    else if(j + 1 != board[i].length &&!board[i][j + 1].getColor().equals(Color.white)){
+                        canFall = false;
+                    }
                 }
             }
+        }
+        if(!canFall){
+            activePiece = null;
+            drop = 0;
         }
 
         repaint();
         play();
     }
     private void rotate(){
-        Color[][] pieceShape = {{Color.white , Color.white, Color.white, Color.white},
-                {Color.white , Color.white, Color.white, Color.white},
-                {Color.white , Color.white, Color.white, Color.white},
-                {Color.white , Color.white, Color.white, Color.white}};
+        activePiece.rotate();
 
 
-        pieceShape[0][0] = board[3][drop].getColor();
-        pieceShape[0][1] = board[2][drop].getColor();
-        pieceShape[0][2] = board[1][drop].getColor();
-        pieceShape[0][3] = board[0][drop].getColor();
-        pieceShape[1][0] = board[3][1 + drop].getColor();
-        pieceShape[1][1] = board[2][1 + drop].getColor();
-        pieceShape[1][2] = board[1][1 + drop].getColor();
-        pieceShape[1][3] = board[0][1 + drop].getColor();
-        pieceShape[2][0] = board[3][2 + drop].getColor();
-        pieceShape[2][1] = board[2][2 + drop].getColor();
-        pieceShape[2][2] = board[1][2 + drop].getColor();
-        pieceShape[2][3] = board[0][2 + drop].getColor();
-        pieceShape[3][0] = board[3][3 + drop].getColor();
-        pieceShape[3][1] = board[2][3 + drop].getColor();
-        pieceShape[3][2] = board[1][3 + drop].getColor();
-        pieceShape[3][3] = board[0][3 + drop].getColor();
+//        pieceShape[0][0] = board[3][drop].getColor();
+//        pieceShape[0][1] = board[2][drop].getColor();
+//        pieceShape[0][2] = board[1][drop].getColor();
+//        pieceShape[0][3] = board[0][drop].getColor();
+//        pieceShape[1][0] = board[3][1 + drop].getColor();
+//        pieceShape[1][1] = board[2][1 + drop].getColor();
+//        pieceShape[1][2] = board[1][1 + drop].getColor();
+//        pieceShape[1][3] = board[0][1 + drop].getColor();
+//        pieceShape[2][0] = board[3][2 + drop].getColor();
+//        pieceShape[2][1] = board[2][2 + drop].getColor();
+//        pieceShape[2][2] = board[1][2 + drop].getColor();
+//        pieceShape[2][3] = board[0][2 + drop].getColor();
+//        pieceShape[3][0] = board[3][3 + drop].getColor();
+//        pieceShape[3][1] = board[2][3 + drop].getColor();
+//        pieceShape[3][2] = board[1][3 + drop].getColor();
+//        pieceShape[3][3] = board[0][3 + drop].getColor();
 
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                board[i][j + drop].setColor(pieceShape[i][j]);
+        for(int i = 0; i < activePiece.getPieceShape().length; i++){
+            for(int j = 0; j <  activePiece.getPieceShape()[i].length; j++){
+                board[i][j + drop].setColor(activePiece.getPieceShape()[i][j]);
             }
         }
         repaint();
@@ -140,11 +129,11 @@ public class TetrisWithLearning extends JFrame{
     }
     public void play(){
         int downRate = 1000;
-        if(!activePeice){
+        if(activePiece == null){
             generatePiece();
         }
         try{
-            timer.schedule(run, 10000, downRate);
+            timer.schedule(run, 0, downRate);
         }
         catch (IllegalStateException e){}
     }
@@ -156,14 +145,13 @@ public class TetrisWithLearning extends JFrame{
 //                {Color.magenta , Color.pink, Color.BLUE, Color.lightGray},
 //                {Color.yellow , Color.pink, Color.pink, Color.lightGray},
 //                {Color.cyan , Color.magenta, Color.blue, Color.red}};
-        movingPeice = straightPolyomino;
-        for(int i = 0 ; i < 4 ; i++ ){
-            for(int j = 0; j < 4; j++){
+        activePiece = straightPolyomino;
+        for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
+            for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){
                 //board[i][j].setColor(straightPolyomino.getPieceShape()[i][j]);
-                board[i][j].setColor(movingPeice.getPieceShape()[i][j]);
+                board[i][j].setColor(activePiece.getPieceShape()[i][j]);
             }
         }
-        activePeice = true;
         repaint();
     }
 }
