@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class TetrisWithLearning extends JFrame{
     private Spaces[][] board = new Spaces[10][24];
     private Piece activePiece = null;
-    private int drop;
+    private boolean canFall;
     java.util.Timer timer = new java.util.Timer();
     TimerTask run = new TimerTask() {
         public void run() {
@@ -34,8 +34,13 @@ public class TetrisWithLearning extends JFrame{
                 container.add(board[i][j].jButton);
             }
         }
-        board[3][23].setColor(Color.BLACK);
-        board[8][5].setColor(Color.BLACK);
+        board[1][23].setColor(Color.BLACK);
+        board[1][22].setColor(Color.BLACK);
+        board[1][21].setColor(Color.BLACK);
+        board[0][23].setColor(Color.BLACK);
+        board[0][22].setColor(Color.BLACK);
+        board[0][21].setColor(Color.BLACK);
+        board[0][20].setColor(Color.BLACK);
 
         jFrame.setVisible(true);
         jFrame.addKeyListener(new KeyListener() {
@@ -73,28 +78,23 @@ public class TetrisWithLearning extends JFrame{
         play();
     }
     private void moveDown(){
-        boolean canFall = true;
-        canFall = activePiece.canFall();
-
+        canFall = activePiece.canFall(board);
         if(canFall) {
-            drop++;
-            for (int i = board.length - 1; i > -1; i--) {
-                for (int j = board[i].length - 1; j > -1; j--) {
-                    if (j + 1 != board[i].length && board[i][j + 1].getColor().equals(Color.white) && canFall) {
-                        board[i][j + 1].setColor(board[i][j].getColor());
-                        board[i][j].setColor(Color.WHITE);
-                    }
-                    else if(j + 1 != board[i].length &&!board[i][j + 1].getColor().equals(Color.white)){
-                        canFall = false;
-                    }
+            System.out.println("New Fall");
+            for (int i = activePiece.getX(); i < activePiece.getPieceShape().length; i++ ) {
+                for (int j = activePiece.getY(); j < activePiece.getPieceShape()[i].length; j++) {
+                    System.out.println("i " + i + "\n" + "j " + j + "\n");
+                    board[activePiece.getX() + i][activePiece.getY() + 1 + j].setColor(Color.red);
                 }
             }
+            for (int i = activePiece.getX(); i < activePiece.getPieceShape().length; i++ ) {
+                board[activePiece.getX() + i][activePiece.getY()].setColor(Color.white);
+            }
         }
+        activePiece.incrementY();
         if(!canFall){
             activePiece = null;
-            drop = 0;
         }
-
         repaint();
         play();
     }
@@ -121,7 +121,7 @@ public class TetrisWithLearning extends JFrame{
 
         for(int i = 0; i < activePiece.getPieceShape().length; i++){
             for(int j = 0; j <  activePiece.getPieceShape()[i].length; j++){
-                board[i][j + drop].setColor(activePiece.getPieceShape()[i][j]);
+                board[i][j].setColor(activePiece.getPieceShape()[i][j]);
             }
         }
         repaint();
@@ -133,19 +133,19 @@ public class TetrisWithLearning extends JFrame{
             generatePiece();
         }
         try{
-            timer.schedule(run, 0, downRate);
+            timer.schedule(run, 10000, downRate);
         }
         catch (IllegalStateException e){}
     }
 
     private void generatePiece() {
-        System.out.println("Generate Piece");
         SquarePolyomino straightPolyomino = new SquarePolyomino();
 //        Color[][] straightPolyomino = {{Color.red , Color.yellow, Color.cyan, Color.gray},
 //                {Color.magenta , Color.pink, Color.BLUE, Color.lightGray},
 //                {Color.yellow , Color.pink, Color.pink, Color.lightGray},
 //                {Color.cyan , Color.magenta, Color.blue, Color.red}};
         activePiece = straightPolyomino;
+        activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){
                 //board[i][j].setColor(straightPolyomino.getPieceShape()[i][j]);
