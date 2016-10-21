@@ -17,6 +17,6 @@ public class SquarePolyomino extends Piece{
     }
     @Override
     public boolean canFall(){
-        
+        return true;
     }
 }
