@@ -2,16 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Andrew on 10/19/2016.
+ * What the Board is made of
  */
 public class Spaces{
-    int xPosition;
-    int yPosition;
+    private int xPosition;
+    private int yPosition;
     JButton jButton;
-    int top = 0;
-    int bottom = 0;
-    int left = 0;
-    int right = 0;
     public Spaces(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -20,20 +16,24 @@ public class Spaces{
         jButton.setLocation(50 + (25 * xPosition), 25 * yPosition);
         jButton.setEnabled(false);
         jButton.setBackground(Color.WHITE);
+        int top = 0;
+        int bottom = 0;
+        int left = 0;
+        int right = 0;
         if(xPosition == 0){
-            this.left = 1;
+            left = 1;
         }
         if(xPosition == 9){
-            this.right = 1;
+            right = 1;
         }
         if(yPosition == 0){
-            this.top = 1;
+            top = 1;
         }
         if(yPosition == 3){
-            this.bottom = 1;
+            bottom = 1;
         }
         if(yPosition == 23){
-            this.bottom = 1;
+            bottom = 1;
         }
         jButton.setBorder(BorderFactory.createMatteBorder(top,left,bottom,right,Color.BLACK));
 

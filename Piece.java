@@ -7,12 +7,8 @@ public class Piece {
 
     }
     public Color[][] rotate(){
-        for(int i = 0; i < 4 ;i++){
-            for(int j = 0; j < 4 ; j++){
-                pieceShape[i][j] = this.pieceShape[i][j];
-            }
-        }
-        return pieceShape;
+        Color[][] array = {{Color.white}};
+        return array;
     }
 
     public Color[][] getPieceShape() {
@@ -26,11 +22,14 @@ public class Piece {
     public boolean canFall(Spaces[][] board) {
         return false;
     }
+    public boolean canRight(Spaces[][] board){
+        return false;
+    }
+    public boolean canLeft(Spaces[][] board){
+        return false;
+    }
     public void setPoint(int xPosition, int yPosition){
         this.point.setLocation(xPosition, yPosition);
-    }
-    public Point getPoint(){
-        return this.point.getLocation();
     }
     public int getX(){
         return this.point.x;

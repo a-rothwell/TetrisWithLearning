@@ -9,7 +9,6 @@ import java.util.TimerTask;
 public class TetrisWithLearning extends JFrame{
     private Spaces[][] board = new Spaces[10][24];
     private Piece activePiece = null;
-    private boolean canFall;
     Random random = new Random();
     java.util.Timer timer = new java.util.Timer();
     TimerTask run = new TimerTask() {
@@ -71,6 +70,7 @@ public class TetrisWithLearning extends JFrame{
         });
     }
     private void moveLeft() {
+        boolean canLeft;
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
                 board[activePiece.getX() + i][activePiece.getY() + j].setColor(Color.white);
@@ -84,6 +84,7 @@ public class TetrisWithLearning extends JFrame{
         play();
     }
     private void moveRight(){
+        boolean canRight;
         for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++ )
             board[activePiece.getX()][activePiece.getY() + j].setColor(Color.white);
@@ -97,6 +98,7 @@ public class TetrisWithLearning extends JFrame{
         play();
     }
     private void moveDown(){
+        boolean canFall;
         canFall = activePiece.canFall(board);
         if(canFall) {
             for (int i = 0; i < activePiece.getPieceShape().length; i++ ) {
@@ -156,7 +158,7 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino()};
         int randomInt = random.nextInt(2);
-        activePiece = randomPiece[1];
+        activePiece = randomPiece[randomInt];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){
