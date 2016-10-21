@@ -9,6 +9,8 @@ public class SquarePolyomino extends Piece{
     public SquarePolyomino(){
         super();
         this.setPieceShape(pieceShape);
+        this.setColor(Color.red);
+        System.out.println("Square Piece");
     }
     @Override
     public Color[][] rotate() {
@@ -17,8 +19,10 @@ public class SquarePolyomino extends Piece{
     @Override
     public boolean canFall(Spaces[][] board){
         boolean canFall = true;
-        for(int i = 0; i < pieceShape[pieceShape.length - 1].length; i++){
-            if(getY() + 1 < board[board.length-1].length && !board[getX()][getY() + pieceShape.length].getColor().equals(Color.white)){
+        for(int i = 0; i < pieceShape.length; i++){
+            for(int j = 0; j < pieceShape[i].length; j++)
+            if(getY() == 22 || !board[getX() + j][getY() + pieceShape.length].getColor().equals(Color.white)){
+                System.out.println("Can't Fall");
                 canFall = false;
             }
         }

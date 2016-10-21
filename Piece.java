@@ -2,6 +2,7 @@ import java.awt.*;
 public class Piece {
     private java.awt.Color[][] pieceShape;
     private Point point = new Point();
+    private Color color = Color.black;
     public Piece(){
 
     }
@@ -46,5 +47,11 @@ public class Piece {
     }
     public void decrementX(){
         this.point.x--;
+    }
+    public Color getColor(){
+        return this.color;
+    }
+    public void setColor(Color color){
+        this.color = color;
     }
 }
