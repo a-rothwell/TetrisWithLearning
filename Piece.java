@@ -6,7 +6,7 @@ public class Piece {
     public Piece(){
 
     }
-    public Color[][] rotate(){
+    public Color[][] rotate(Spaces[][] board){
         return pieceShape;
     }
 
@@ -69,4 +69,7 @@ public class Piece {
     public void setColor(Color color){
         this.color = color;
     }
+    public void moveDown(Spaces[][] board){
+    }
+
 }
