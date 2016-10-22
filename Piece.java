@@ -71,5 +71,11 @@ public class Piece {
     }
     public void moveDown(Spaces[][] board){
     }
+    public void moveLeft(Spaces[][] board){
+
+    }
+    public void moveRight(Spaces[][] board){
+
+    }
 
 }

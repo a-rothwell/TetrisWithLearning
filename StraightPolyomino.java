@@ -33,6 +33,30 @@ public class StraightPolyomino extends Piece {
                 board[this.getX() + i][this.getY() + this.getPieceShape()[i].length - 1].setColor(this.getColor());
             }
     }
+    @Override
+    public void moveLeft(Spaces[][] board) {
+        for (int i = 0; i < this.getPieceShape().length; i++) {
+            for (int j = 0; j < this.getPieceShape()[i].length; j++)
+                board[this.getX() + i][this.getY() + j].setColor(Color.white);
+        }
+        this.decrementX();
+        for (int i = 0; i < this.getPieceShape().length; i++) {
+            for (int j = 0; j < this.getPieceShape()[i].length; j++)
+                board[this.getX() + i][this.getY() + j].setColor(this.getColor());
+        }
+    }
+    @Override
+    public void moveRight(Spaces[][] board){
+        for (int i = 0; i < this.getPieceShape().length; i++) {
+            for (int j = 0; j < this.getPieceShape()[i].length; j++)
+                board[this.getX()][this.getY() + j].setColor(Color.white);
+        }
+        this.incrementX();
+        for (int i = 0; i < this.getPieceShape().length; i++) {
+            for (int j = 0; j < this.getPieceShape()[i].length; j++)
+                board[this.getX() + i][this.getY() + j].setColor(this.getColor());
+        }
+    }
     public void setVerticalFalse(){
         this.vertical = false;
     }

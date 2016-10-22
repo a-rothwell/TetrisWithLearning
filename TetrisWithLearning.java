@@ -64,15 +64,7 @@ public class TetrisWithLearning extends JFrame{
     public void moveLeft() {
         boolean canLeft = activePiece.canLeft(board);
         if(canLeft) {
-            for (int i = 0; i < activePiece.getPieceShape().length; i++) {
-                for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
-                    board[activePiece.getX() + i][activePiece.getY() + j].setColor(Color.white);
-            }
-            activePiece.decrementX();
-            for (int i = 0; i < activePiece.getPieceShape().length; i++) {
-                for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
-                    board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
-            }
+            activePiece.moveLeft(board);
         }
         repaint();
         play();
@@ -80,15 +72,7 @@ public class TetrisWithLearning extends JFrame{
    public void moveRight(){
        boolean canRight = activePiece.canRight(board);
        if(canRight) {
-           for (int i = 0; i < activePiece.getPieceShape().length; i++) {
-               for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
-                   board[activePiece.getX()][activePiece.getY() + j].setColor(Color.white);
-           }
-           activePiece.incrementX();
-           for (int i = 0; i < activePiece.getPieceShape().length; i++) {
-               for (int j = 0; j < activePiece.getPieceShape()[i].length; j++)
-                   board[activePiece.getX() + i][activePiece.getY() + j].setColor(activePiece.getColor());
-           }
+           activePiece.moveRight(board);
        }
         repaint();
         play();
@@ -162,7 +146,7 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino(true), new StraightPolyomino(false), new JPolyominos()};
         int randomInt = random.nextInt(4);
-        activePiece = randomPiece[3];
+        activePiece = randomPiece[randomInt];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){
