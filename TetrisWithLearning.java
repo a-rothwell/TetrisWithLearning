@@ -146,7 +146,7 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino(true), new StraightPolyomino(false), new JPolyominos()};
         int randomInt = random.nextInt(4);
-        activePiece = randomPiece[randomInt];
+        activePiece = randomPiece[3];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){

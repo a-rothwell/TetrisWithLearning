@@ -1,8 +1,5 @@
 import java.awt.*;
 
-/**
- * Created by Andrew on 10/20/2016.
- */
 public class JPolyominos  extends Piece{
     private Color[][] pieceShape = {{Color.white, Color.yellow},{Color.white,Color.yellow},{Color.yellow, Color.yellow}};
     public JPolyominos(){
