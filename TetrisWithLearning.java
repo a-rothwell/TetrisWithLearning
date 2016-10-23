@@ -25,7 +25,7 @@ public class TetrisWithLearning extends JFrame{
         return this.board;
     }
     public void setUp(){
-        jFrame.setSize(350,400);
+        jFrame.setSize(600,900);
         jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         Container container = jFrame.getContentPane();
         container.setLayout(null);

@@ -12,8 +12,8 @@ public class Spaces{
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.jButton = new JButton();
-        jButton.setSize(15,15);
-        jButton.setLocation(50 + (15 * xPosition), 15 * yPosition);
+        jButton.setSize(30,30);
+        jButton.setLocation(50 + (30 * xPosition), 30 * yPosition);
         jButton.setEnabled(false);
         jButton.setBackground(Color.WHITE);
         int top = 0;
