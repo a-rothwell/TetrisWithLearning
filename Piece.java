@@ -31,7 +31,9 @@ public class Piece {
         boolean canRight = true;
         for(int j = 0; j < this.getPieceShape()[this.getPieceShape().length - 1].length; j++){
             if(getX() + getPieceShape().length  >= 10  || !board[getX() + this.getPieceShape().length][getY() + j].getColor().equals(Color.white)) {
-                canRight = false;
+                if(!this.getPieceShape()[this.getPieceShape().length - 1][j].equals(Color.white)){
+                    canRight = false;
+                }
             }
         }
         return canRight;
@@ -40,7 +42,9 @@ public class Piece {
         boolean canLeft = true;
         for(int j = 0; j < this.getPieceShape()[0].length; j++){
             if(getX() <=0  || !board[getX() - 1][getY() + j].getColor().equals(Color.white)) {
-                canLeft = false;
+                if(!this.getPieceShape()[0][j].equals(Color.white)){
+                    canLeft = false;
+                }
             }
         }
         return canLeft;

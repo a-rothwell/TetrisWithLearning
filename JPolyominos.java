@@ -10,7 +10,9 @@ public class JPolyominos  extends Piece{
     @Override
     public void moveDown(Spaces[][] board){
         for (int i = 0; i < this.getPieceShape().length; i++ ) {
-            board[this.getX() + i][this.getY()].setColor(Color.white);
+            if(!this.getPieceShape()[i][0].equals(Color.white)){
+                board[this.getX() + i][this.getY()].setColor(Color.white);
+            }
             board[this.getX() + i][this.getY() + this.getPieceShape()[i].length - 1].setColor(Color.white);
         }
         this.incrementY();
@@ -25,7 +27,9 @@ public class JPolyominos  extends Piece{
     public void moveLeft(Spaces[][] board) {
         for (int i = 0; i < this.getPieceShape().length; i++) {
             for (int j = 0; j < this.getPieceShape()[i].length; j++)
-                board[this.getX() + i][this.getY() + j].setColor(Color.white);
+                if(!this.getPieceShape()[i][j].equals(Color.white)){
+                    board[this.getX() + i][this.getY() + j].setColor(Color.white);
+                }
         }
         this.decrementX();
         for (int i = 0; i < this.getPieceShape().length; i++) {
@@ -40,7 +44,9 @@ public class JPolyominos  extends Piece{
     public void moveRight(Spaces[][] board) {
         for (int i = 0; i < this.getPieceShape().length; i++) {
             for (int j = 0; j < this.getPieceShape()[i].length; j++)
-                board[this.getX() + i][this.getY() + j].setColor(Color.white);
+                if(!this.getPieceShape()[i][j].equals(Color.white)){
+                    board[this.getX() + i][this.getY() + j].setColor(Color.white);
+                }
         }
         this.incrementX();
         for (int i = 0; i < this.getPieceShape().length; i++) {

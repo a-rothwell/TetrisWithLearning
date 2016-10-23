@@ -118,6 +118,9 @@ public class TetrisWithLearning extends JFrame{
     }
     public void play() {
         int downRate = 1000;
+        if(activePiece == null){
+            clearRows();
+        }
         if(!checkForLoss() && activePiece == null){
             jFrame.dispose();
         }
@@ -130,6 +133,26 @@ public class TetrisWithLearning extends JFrame{
         catch (IllegalStateException e){
             //System.out.println(e);
         }
+    }
+
+    private void clearRows() {
+        for(int i = 0; i < 24; i++){
+            boolean rowClear = true;
+            for(int j = 0 ; j < 10  ; j++){
+                if(board[j][i].getColor().equals(Color.white)){
+                    rowClear = false;
+                }
+            }
+            if(rowClear){
+                for(int j = 0 ; j < 10  ; j++){
+                    board[j][i].setColor(Color.WHITE);
+                    moveBoardDown();
+                }
+            }
+        }
+        repaint();
+    }
+    private void moveBoardDown() {
     }
 
     private boolean checkForLoss() {
@@ -146,7 +169,7 @@ public class TetrisWithLearning extends JFrame{
     private void generatePiece() {
         Piece[] randomPiece = {new SquarePolyomino(), new StraightPolyomino(true), new StraightPolyomino(false), new JPolyominos()};
         int randomInt = random.nextInt(4);
-        activePiece = randomPiece[3];
+        activePiece = randomPiece[randomInt];
         activePiece.setPoint(0,0);
         for(int i = 0 ; i < activePiece.getPieceShape().length ; i++ ){
             for(int j = 0; j < activePiece.getPieceShape()[i].length; j++){
