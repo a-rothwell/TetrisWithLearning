@@ -9,6 +9,7 @@ import java.util.TimerTask;
 public class TetrisWithLearning extends JFrame{
     private Spaces[][] board = new Spaces[10][24];
     Piece activePiece = null;
+    private int score = 0;
     Random random = new Random();
     JFrame jFrame = new JFrame();
     java.util.Timer timer = new java.util.Timer();
@@ -62,7 +63,8 @@ public class TetrisWithLearning extends JFrame{
         });
     }
     public void moveLeft() {
-        boolean canLeft = activePiece.canLeft(board);
+        boolean canLeft = false;
+        canLeft = activePiece.canLeft(board);
         if(canLeft) {
             activePiece.moveLeft(board);
         }
@@ -70,15 +72,17 @@ public class TetrisWithLearning extends JFrame{
         play();
     }
    public void moveRight(){
-       boolean canRight = activePiece.canRight(board);
+       boolean canRight = false;
+       canRight = activePiece.canRight(board);
        if(canRight) {
            activePiece.moveRight(board);
        }
         repaint();
         play();
     }
-    public  void moveDown(){
-        boolean canFall = activePiece.canFall(board);
+    public void moveDown(){
+        boolean canFall = false;
+        canFall = activePiece.canFall(board);
         if(canFall){
             activePiece.moveDown(board);
         }
@@ -136,33 +140,43 @@ public class TetrisWithLearning extends JFrame{
     }
 
     private void clearRows() {
+        int k = 0;
         for(int i = 0; i < 24; i++){
-            boolean rowClear = true;
             for(int j = 0 ; j < 10  ; j++){
-                if(board[j][i].getColor().equals(Color.white)){
-                    rowClear = false;
+                if(!board[j][i].getColor().equals(Color.white)){
+                    k++;
                 }
             }
-            if(rowClear){
-                for(int j = 0 ; j < 10  ; j++){
-                    board[j][i].setColor(Color.WHITE);
-                    moveBoardDown();
-                }
+            if(k == 10){
+                moveBoardDown(i);
+                score++;
+            }
+            k = 0;
+        }
+        repaint();
+    }
+    private void moveBoardDown(int i) {
+        for(int col = 0; col < 10; col++) {
+            board[col][i].setColor(Color.WHITE);
+        }
+        for(int row = i; row > 0; row--){
+            for(int col = 0; col < 10; col++) {
+                board[col][row].setColor(board[col][row - 1].getColor());
             }
         }
         repaint();
     }
-    private void moveBoardDown() {
-    }
 
-    private boolean checkForLoss() {
+    public boolean checkForLoss() {
         for(int i = 0; i < 10; i++){
             for(int j = 0 ; j < 4 ; j++){
                 if(!board[i][j].getColor().equals(Color.white)){
+                    System.out.println("Returned False");
                     return false;
                 }
             }
         }
+        System.out.println("Returned True");
         return true;
     }
 
@@ -178,4 +192,15 @@ public class TetrisWithLearning extends JFrame{
         }
         repaint();
     }
+    public int getScore(){
+        return score;
+    }
+    public void setBoard(Spaces[][] board, Piece activePiece){
+        this.board = board;
+        this.activePiece = activePiece;
+    }
+    public Piece getActivePiece(){
+        return activePiece;
+    }
+
 }
