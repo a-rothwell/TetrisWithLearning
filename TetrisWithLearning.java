@@ -126,7 +126,7 @@ public class TetrisWithLearning extends JFrame{
             clearRows();
         }
         if(!checkForLoss() && activePiece == null){
-            jFrame.dispose();
+            //jFrame.dispose();
         }
         if(activePiece == null && checkForLoss()){
             generatePiece();
@@ -171,12 +171,10 @@ public class TetrisWithLearning extends JFrame{
         for(int i = 0; i < 10; i++){
             for(int j = 0 ; j < 4 ; j++){
                 if(!board[i][j].getColor().equals(Color.white)){
-                    System.out.println("Returned False");
                     return false;
                 }
             }
         }
-        System.out.println("Returned True");
         return true;
     }
 

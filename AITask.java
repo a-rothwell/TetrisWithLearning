@@ -2,62 +2,48 @@ import java.awt.*;
 import java.util.Random;
 
 public class AITask implements Runnable{
-    Random random = new Random();
+    static Random random = new Random();
     private TetrisWithLearning tetrisWithLearning = new TetrisWithLearning();
-    private TetrisWithLearning testGame = new TetrisWithLearning();
+    private TetrisWithLearning testGame = tetrisWithLearning;
     public void run() {
         Spaces[][] currentBoard = tetrisWithLearning.getBoard();
-        int ifMoveDown;
-        int ifMoveRight;
-        int ifMoveLeft;
-//        while(tetrisWithLearning.getActivePiece() == null){
-//            //System.out.println("Waiting");
-//        }
-        testGame.setBoard(currentBoard,tetrisWithLearning.getActivePiece());
-        testGame.moveDown();
-        ifMoveDown = score(testGame.getBoard(),testGame.getScore());
+        int ifMoveDown = 0;
+        int ifMoveRight = 0;
+        int ifMoveLeft = 0;
 
-        testGame.setBoard(currentBoard,tetrisWithLearning.getActivePiece());
+        testGame = tetrisWithLearning;
+        testGame.moveDown();
+        ifMoveDown = score(testGame.getBoard(),testGame.getScore()) - 200;
+
+        testGame = tetrisWithLearning;
         testGame.moveRight();
         ifMoveRight = score(testGame.getBoard(),testGame.getScore());
 
-        testGame.setBoard(currentBoard,tetrisWithLearning.getActivePiece());
+        testGame = tetrisWithLearning;
         testGame.moveLeft();
         ifMoveLeft = score(testGame.getBoard(),testGame.getScore());
 
-        System.out.println(ifMoveDown);
-        System.out.println(ifMoveRight);
-        System.out.println(ifMoveLeft);
-
         if(ifMoveDown > ifMoveLeft && ifMoveDown > ifMoveLeft){
+            System.out.println("Move down");
             tetrisWithLearning.moveDown();
         }
         else if(ifMoveRight > ifMoveLeft){
+            System.out.println("Move left");
             tetrisWithLearning.moveRight();
         }
         else if(ifMoveLeft > ifMoveRight){
+            System.out.println("Move right");
             tetrisWithLearning.moveLeft();
         }
-        else{
-            System.out.println("Random");
-            int choice = random.nextInt(3);
-            switch (choice){
-                case 0:
-                    if(tetrisWithLearning.activePiece != null){
-                        tetrisWithLearning.moveDown();
-                    }
-                    break;
-                case 1:
-                    if(tetrisWithLearning.activePiece != null){
-                        tetrisWithLearning.moveLeft();
-                    }
-                    break;
-                case 2:
-                    if(tetrisWithLearning.activePiece != null){
-                        tetrisWithLearning.moveRight();
-                    }
-                    break;
-            }
+        tetrisWithLearning.repaint();
+        try {
+            this.wait(50000);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            run();
         }
     }
     private static int score(Spaces[][] board,int score){
@@ -65,10 +51,10 @@ public class AITask implements Runnable{
         for(int i = 0; i < 24; i++){
             for(int j = 0 ; j < 10  ; j++){
                 if(board[j][i].getColor().equals(Color.white)){
-                    whiteSpaces++;
+                    whiteSpaces = whiteSpaces + j;
                 }
             }
         }
-        return whiteSpaces * 5 + score * 10;
+        return whiteSpaces * 2 + score * 100 + random.nextInt(100);
     }
 }
