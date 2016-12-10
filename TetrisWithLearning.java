@@ -12,12 +12,12 @@ public class TetrisWithLearning extends JFrame{
     private int score = 0;
     Random random = new Random();
     JFrame jFrame = new JFrame();
-    java.util.Timer timer = new java.util.Timer();
-    TimerTask run = new TimerTask() {
-        public void run() {
-            moveDown();
-        }
-    };
+//    java.util.Timer timer = new java.util.Timer();
+//    TimerTask run = new TimerTask() {
+//        public void run() {
+//            moveDown();
+//        }
+//    };
     public TetrisWithLearning() {
         setUp();
         play();

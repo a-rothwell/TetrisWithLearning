@@ -24,15 +24,12 @@ public class AITask implements Runnable{
         ifMoveLeft = score(testGame.getBoard(),testGame.getScore());
 
         if(ifMoveDown > ifMoveLeft && ifMoveDown > ifMoveLeft){
-            System.out.println("Move down");
             tetrisWithLearning.moveDown();
         }
         else if(ifMoveRight > ifMoveLeft){
-            System.out.println("Move left");
             tetrisWithLearning.moveRight();
         }
         else if(ifMoveLeft > ifMoveRight){
-            System.out.println("Move right");
             tetrisWithLearning.moveLeft();
         }
         tetrisWithLearning.repaint();
@@ -40,7 +37,7 @@ public class AITask implements Runnable{
             this.wait(50000);
         }
         catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         finally {
             run();
@@ -51,10 +48,10 @@ public class AITask implements Runnable{
         for(int i = 0; i < 24; i++){
             for(int j = 0 ; j < 10  ; j++){
                 if(board[j][i].getColor().equals(Color.white)){
-                    whiteSpaces = whiteSpaces + j;
+                    whiteSpaces = whiteSpaces - j;
                 }
             }
         }
-        return whiteSpaces * 2 + score * 100 + random.nextInt(100);
+        return whiteSpaces * 2 + score * 1000 + random.nextInt(100);
     }
 }
